@@ -1,0 +1,35 @@
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <div>
+        <a>
+          BPM
+        </a>
+      </div>
+      <div fxFlex fxLayout fxLayoutAlign="flex-end"  fxHide.xs>
+        <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+          <li>
+            <a routerLink="/login" routerLinkActive="active" *ngIf="!isAuthenticated">
+              <mat-icon class="icon">input</mat-icon>
+              <span  class="label">Login</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/register" routerLinkActive="active" *ngIf="!isAuthenticated">
+              <mat-icon class="icon">assignment_in</mat-icon>
+              <span class="label">Register</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="isAuthenticated" (click)="logout()">
+              <mat-icon class="icon">input</mat-icon>
+              <span class="label">LogOut</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </mat-toolbar>
+    <main>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

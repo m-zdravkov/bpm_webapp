@@ -1,0 +1,11 @@
+<div>
+  <mat-card>
+    <mat-form-field class="separate-input">
+      <input matInput placeholder="Username" [(ngModel)]="user.username" required/>
+    </mat-form-field>
+    <mat-form-field class="separate-input">
+      <input matInput type="password" placeholder="Password" [(ngModel)]="user.password" required/>
+    </mat-form-field>
+    <button class="margin-left" mat-raised-button color="primary" matInput value="Register" (click)="register()">Register</button>
+  </mat-card>
+</div>
