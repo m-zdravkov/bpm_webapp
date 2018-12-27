@@ -86,3 +86,19 @@ export class AuthGuardService implements CanActivate {
     return true;
   }
 }
+
+@Injectable()
+export class LoginRedirectService implements CanActivate {
+  public auth: IAuthService;
+  constructor( public router: Router, authServiceInstance: AuthServiceInstance) {
+    this.auth = authServiceInstance.getInstance();
+  }
+
+  canActivate(): boolean {
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/']);
+      return false;
+    }
+    return true;
+  }
+}

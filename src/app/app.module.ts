@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuardService, AuthServiceInstance } from './auth/services/AuthService';
+import { AuthGuardService, AuthServiceInstance, LoginRedirectService } from './auth/services/AuthService';
 import {
   MatButtonModule,
   MatCardModule,
@@ -47,7 +47,7 @@ import { LocalStorageService } from './utils/LocalStorageService';
     NoopAnimationsModule,
     FlexModule
   ],
-  providers: [AuthServiceInstance, AuthGuardService, LocalStorageService],
+  providers: [AuthServiceInstance, AuthGuardService, LoginRedirectService, LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
