@@ -1,30 +1,28 @@
 <div>
   <mat-card>
     <mat-form-field class="separate-input">
-      <input matInput placeholder="Username" [(ngModel)]="user.username" required/>
-    </mat-form-field>
-
-    <mat-form-field class="separate-input">
-      <input matInput placeholder="Phone" [(ngModel)]="user.phone" />
+      <input matInput placeholder="Username" [(ngModel)]="registrationUser.username" required/>
     </mat-form-field>
     <mat-form-field class="separate-input">
-      <input matInput placeholder="Email" [(ngModel)]="user.username" required/>
+      <input matInput placeholder="Phone" [(ngModel)]="registrationUser.phone" />
     </mat-form-field>
     <mat-form-field class="separate-input">
-      <input matInput placeholder="Facebook" [(ngModel)]="user.username" />
+      <input matInput placeholder="Email" [(ngModel)]="registrationUser.email" required/>
     </mat-form-field>
     <mat-form-field class="separate-input">
-      <input matInput placeholder="ShowPhone" [(ngModel)]="user.username" />
+      <input matInput placeholder="Facebook" [(ngModel)]="registrationUser.facebook" />
     </mat-form-field>
+    <mat-checkbox class="separate-input" [(ngModel)]="registrationUser.showPhone">
+      Show Phone
+    </mat-checkbox>
+    <mat-checkbox class="separate-input" [(ngModel)]="registrationUser.showEmail">
+      Show Email
+    </mat-checkbox>
+    <mat-checkbox class="separate-input" [(ngModel)]="registrationUser.showFacebook">
+      Show Facebook
+    </mat-checkbox>
     <mat-form-field class="separate-input">
-      <input matInput placeholder="ShowEmail" [(ngModel)]="user.username" />
-    </mat-form-field>
-    <mat-form-field class="separate-input">
-      <input matInput placeholder="ShowFacebook" [(ngModel)]="user.username" />
-    </mat-form-field>
-
-    <mat-form-field class="separate-input">
-      <input matInput type="password" placeholder="Password" [(ngModel)]="user.password" required/>
+      <input matInput type="password" placeholder="Password" [(ngModel)]="registrationUser.password" required/>
     </mat-form-field>
     <button class="margin-left" mat-raised-button color="primary" matInput value="Register" (click)="register()">Register</button>
   </mat-card>

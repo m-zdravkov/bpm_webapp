@@ -12,7 +12,8 @@ import {
   MatInputModule,
   MatListModule,
   MatSidenavModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { RegisterFormComponent } from './register/register-form.component';
 import { FormsModule } from '@angular/forms';
@@ -45,7 +46,8 @@ import { LocalStorageService } from './utils/LocalStorageService';
     HttpClientModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    FlexModule
+    FlexModule,
+    MatCheckboxModule
   ],
   providers: [AuthServiceInstance, AuthGuardService, LocalStorageService],
   bootstrap: [AppComponent]

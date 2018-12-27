@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from '../models/User';
+import { RegistrationUser } from '../models/RegistrationUser';
 import { AuthServiceInstance, IAuthService } from '../auth/services/AuthService';
 import { HttpClient } from '@angular/common/http';
 
@@ -18,9 +18,9 @@ export class RegisterFormComponent {
     this.authService = authServiceInstance.getInstance();
   }
 
-  user = new User('', '', '');
+  registrationUser = new RegistrationUser('', '', '');
 
   register() {
-    this.authService.register(this.user, this.httpClient);
+    this.authService.register(this.registrationUser, this.httpClient);
   }
 }
