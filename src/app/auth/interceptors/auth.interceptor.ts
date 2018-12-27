@@ -9,7 +9,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private lsService: LocalStorageService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.lsService.accessToken && Object.keys(this.lsService.accessToken) > 0) {
+    if (this.lsService.accessToken && Object.keys(this.lsService.accessToken).length > 0) {
       const accessToken: AccessToken = this.lsService.accessToken;
       req = req.clone({
         setHeaders: {
