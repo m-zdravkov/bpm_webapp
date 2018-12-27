@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'bpm-register-form',
   templateUrl: './register-form.component.html',
-  styleUrls:['./register-form.component.scss']
+  styleUrls: ['./register-form.component.scss']
 })
 export class RegisterFormComponent {
   authService: IAuthService;
@@ -18,7 +18,7 @@ export class RegisterFormComponent {
     this.authService = authServiceInstance.getInstance();
   }
 
-  user = new User('', '');
+  user = new User('', '', '');
 
   register() {
     this.authService.register(this.user, this.httpClient);
