@@ -15,6 +15,6 @@ export class LoginFormComponent {
   authService: IAuthService = this.authServiceInstance.getInstance();
   login() {
     this.authService.login(this.user, this.httpClient);
-    this.router.navigate(['/register']);
+    this.router.navigate(['/']);
   }
 }

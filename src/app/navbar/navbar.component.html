@@ -21,6 +21,12 @@
             </a>
           </li>
           <li>
+            <a *ngIf="isAuthenticated" (click)="createLobby()">
+              <mat-icon class="icon">group_add</mat-icon>
+              <span class="label">Create Lobby</span>
+            </a>
+          </li>
+          <li>
             <a *ngIf="isAuthenticated" (click)="logout()">
               <mat-icon class="icon">input</mat-icon>
               <span class="label">LogOut</span>

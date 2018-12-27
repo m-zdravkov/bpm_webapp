@@ -1,7 +1,16 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-body {
-  margin: 0;
+bpm-root {
+  margin: 0px;
+  background-color: black;
+  height: 100%;
+}
+.bg {
+  height: 100% !important;
+  background: fade-in($color: #000000, $amount: 1);
+  background-image: url('../assets/background-menu.jpg');
+  background-position: center;
+  background-size: cover;
 }
 .card {
   min-width: 80%;

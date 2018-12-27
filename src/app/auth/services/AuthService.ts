@@ -6,6 +6,7 @@ import { AccessToken } from '../../models/AccessToken';
 import * as moment from 'moment';
 import { CanActivate, Router } from '@angular/router';
 import { LocalStorageService } from '../../utils/LocalStorageService';
+import { ToastrService } from 'ngx-toastr';
 
 export interface IAuthService {
   setToken(res: AccessToken): void;
@@ -17,16 +18,22 @@ export interface IAuthService {
 
 @Injectable()
 export class AuthServiceInstance {
-  constructor(public lsService: LocalStorageService) {}
+  constructor(
+    public lsService: LocalStorageService,
+    public toastrService: ToastrService
+  ) {}
 
   getInstance(): IAuthService {
-    return new AuthService(this.lsService);
+    return new AuthService(this.lsService, this.toastrService);
   }
 }
 
 class AuthService implements IAuthService {
 
-  constructor(private lsService: LocalStorageService) {}
+  constructor(
+    private lsService: LocalStorageService,
+    private toastrService: ToastrService
+  ) {}
 
   setToken(res: AccessToken): void {
     this.lsService.accessToken = res;
@@ -37,9 +44,11 @@ class AuthService implements IAuthService {
     httpClient.post<AccessToken>(urls.getUrl('register').toString(), user)
       .subscribe(accessToken => {
           this.setToken(accessToken);
+          this.toastrService.success('You have been registered', 'Welcome');
         },
         err => {
           console.log(err);
+          this.toastrService.error(err, 'Something went wrong with your registration.');
         });
   }
 
@@ -48,14 +57,17 @@ class AuthService implements IAuthService {
     httpClient.post<AccessToken>(urls.getUrl('login').toString(), user)
       .subscribe(accessToken => {
           this.setToken(accessToken);
+          this.toastrService.success('Ready to look for a game?', 'Hi again!');
         },
         err => {
           console.log(err);
+          this.toastrService.error(err, 'Something went wrong and we could not log you in.');
         });
   }
 
   logout() {
     this.lsService.accessToken = new AccessToken();
+    this.toastrService.info('You have logged out.', 'Bye!');
   }
 
   isAuthenticated(nextVal?: AccessToken): boolean {

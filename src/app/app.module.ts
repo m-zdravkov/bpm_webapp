@@ -22,13 +22,14 @@ import { LoginFormComponent } from './login/LoginFormComponent';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FlexModule } from '@angular/flex-layout';
 import { LocalStorageService } from './utils/LocalStorageService';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterFormComponent,
     LoginFormComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +46,8 @@ import { LocalStorageService } from './utils/LocalStorageService';
     HttpClientModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    FlexModule
+    FlexModule,
+    ToastrModule.forRoot(),
   ],
   providers: [AuthServiceInstance, AuthGuardService, LocalStorageService],
   bootstrap: [AppComponent]
