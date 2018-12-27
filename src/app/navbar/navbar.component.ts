@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthServiceInstance, IAuthService } from '../auth/services/AuthService';
 import { LocalStorageService } from '../utils/LocalStorageService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'bpm-navbar',
@@ -10,7 +11,11 @@ import { LocalStorageService } from '../utils/LocalStorageService';
 export class NavbarComponent {
   private authService: IAuthService;
   isAuthenticated: boolean;
-  constructor(authServiceInstance: AuthServiceInstance, lsService: LocalStorageService) {
+  constructor(
+    authServiceInstance: AuthServiceInstance,
+    lsService: LocalStorageService,
+    public router: Router)
+  {
     this.authService = authServiceInstance.getInstance();
     this.isAuthenticated = this.authService.isAuthenticated();
     lsService.itemValue.subscribe((nextVal => {
@@ -20,5 +25,13 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  shouldDisplay(element: string): Boolean {
+    let displayLogic: any = {
+      "lobby-create": this.isAuthenticated && this.router.url !== '/lobby/create'
+    };
+    console.log(this.router.url);
+    return displayLogic[element];
   }
 }

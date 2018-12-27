@@ -2,7 +2,7 @@
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <div>
-        <a>
+        <a routerLink="/" routerLinkActive="Active">
           BPM
         </a>
       </div>
@@ -21,7 +21,7 @@
             </a>
           </li>
           <li>
-            <a *ngIf="isAuthenticated" (click)="createLobby()">
+            <a routerLink="/lobby/create" *ngIf="shouldDisplay('lobby-create')">
               <mat-icon class="icon">group_add</mat-icon>
               <span class="label">Create Lobby</span>
             </a>

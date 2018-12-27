@@ -6,8 +6,7 @@ bpm-root {
   height: 100%;
 }
 .bg {
-  height: 100% !important;
-  background: fade-in($color: #000000, $amount: 1);
+  height: 100%;
   background-image: url('../assets/background-menu.jpg');
   background-position: center;
   background-size: cover;
@@ -34,4 +33,12 @@ a {
 
 .content {
   margin-top: 30px;
+  width: 100%;
+}
+
+.toast-title {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+.toast-message {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }

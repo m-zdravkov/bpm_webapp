@@ -1,0 +1,29 @@
+<div>
+
+  <div fxFlex="20%" fxFlex.sm="10%" fxFlex.xs="5%"></div>
+
+  <mat-card fxFlex="60%" fxFlex.sm="80%" fxFlex.xs="90%" >
+
+    <mat-card-title>New lobby</mat-card-title>
+
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Games (any)" [(ngModel)]="lobbyForm.game" />
+      </mat-form-field>
+      <br/>
+      <mat-form-field>
+        <input matInput placeholder="Lobby Name" [(ngModel)]="lobbyForm.name" />
+      </mat-form-field>
+      <br/>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Description" [(ngModel)]="lobbyForm.description" />
+      </mat-form-field>
+      <br/>
+      <button  mat-raised-button color="primary" matInput value="Create" (click)="create()">Create</button>
+    </mat-card-content>
+
+  </mat-card>
+
+  <div fxFlex="20%" fxFlex.sm="10%" fxFlex.xs="5%"></div>
+
+</div>

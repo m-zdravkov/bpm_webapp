@@ -23,6 +23,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FlexModule } from '@angular/flex-layout';
 import { LocalStorageService } from './utils/LocalStorageService';
 import { ToastrModule } from 'ngx-toastr';
+import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
+import { LobbyComponent } from './lobby/lobby.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { ToastrModule } from 'ngx-toastr';
     RegisterFormComponent,
     LoginFormComponent,
     NavbarComponent,
+    CreateLobbyComponent,
+    LobbyComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,9 +51,11 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     NoopAnimationsModule,
     FlexModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-left'
+    }),
   ],
   providers: [AuthServiceInstance, AuthGuardService, LocalStorageService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
