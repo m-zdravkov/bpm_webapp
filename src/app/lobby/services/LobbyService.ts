@@ -4,7 +4,7 @@ import { IResourceService, ResourceService, ResourceServiceInstance } from 'src/
 import { HttpClient } from '@angular/common/http';
 
 export interface ILobbyService extends IResourceService<Lobby> {
-
+    
 }
 
 @Injectable()
