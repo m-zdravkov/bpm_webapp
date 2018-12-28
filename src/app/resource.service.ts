@@ -10,13 +10,6 @@ export interface IResourceService<T> {
   // This buffers fetched resources
   resources: {[key: string]: T};
 
-  /*
-  requestCreate(resource: T): Observable<HttpEvent<T>>;
-  requestGet(resource: T): Observable<HttpEvent<{[key: string]:T}>>; // Get an array of resources
-  requestUpdate(resource: T): Observable<HttpEvent<T>>;
-  requestDelete(resource: T): Observable<HttpEvent<T>>;
-  */
-
   create(resource: T): void;
   get(resource: any): void;
   update(resource: T): void;
@@ -61,25 +54,6 @@ export class ResourceService<T> implements IResourceService<T> {
     return this.httpClient.request(req);
   }
 
-  // Request methods section, these should be subscribed to
-  /*
-  requestCreate(resource: T): Observable<HttpEvent<T>> {
-    return this.genericRequest('create', resource);
-  }
-
-  requestGet(resource: T): Observable<HttpEvent<{[key:string]: T}>> {
-    return this.genericRequest('get', resource);
-  }
-
-  requestUpdate(resource: T): Observable<HttpEvent<T>> {
-    return this.genericRequest('update', resource);
-  }
-
-  requestDelete(resource: T): Observable<HttpEvent<T>> {
-    return this.genericRequest('delete', resource);
-  }
-  */
-
   protected genericCrud(action: string, request: any, uri?: string) {
     this.genericRequest(action, request, uri).subscribe(
       (res: any) => {
@@ -88,7 +62,7 @@ export class ResourceService<T> implements IResourceService<T> {
         }
       },
       (err: any) => {
-        console.log(err);
+        console.log(JSON.stringify(err));
       }
     )
   }
