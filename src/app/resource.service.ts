@@ -8,7 +8,7 @@ export interface IResourceService<T> {
   httpRequests: {[key: string]:HttpRequestData};
 
   create(resource: T): Observable<HttpEvent<T>>;
-  get(resource: T): Observable<HttpEvent<T>>;
+  get(resource: T): Observable<HttpEvent<{[key: string]:T}>>; // Get an array of resources
   update(resource: T): Observable<HttpEvent<T>>;
   delete(resource: T): Observable<HttpEvent<T>>;
   /**
@@ -38,7 +38,7 @@ export class ResourceService<T> implements IResourceService<T> {
 
   }
 
-  protected genericRequest(action: string, resource: T): Observable<HttpEvent<T>> {
+  protected genericRequest(action: string, resource: T): Observable<HttpEvent<any>> {
     const reqData: HttpRequestData = this.httpRequests[action];
     const req = new HttpRequest(reqData.method, reqData.url, resource, reqData.options);
     return this.httpClient.request(req);
@@ -48,7 +48,7 @@ export class ResourceService<T> implements IResourceService<T> {
     return this.genericRequest('create', resource);
   }
 
-  get(resource: T): Observable<HttpEvent<T>> {
+  get(resource: T): Observable<HttpEvent<{[key:string]:T}>> {
     return this.genericRequest('get', resource);
   }
 
@@ -64,6 +64,6 @@ export class ResourceService<T> implements IResourceService<T> {
     this.httpRequests['create'] = new HttpRequestData('POST', baseUrl + '/create');
     this.httpRequests['get'] = new HttpRequestData('GET', baseUrl + '/get');
     this.httpRequests['update'] = new HttpRequestData('PUT', baseUrl + '/update');
-    this.httpRequests['delete'] = new HttpRequestData('DELETE', baseUrl + '/update');
+    this.httpRequests['delete'] = new HttpRequestData('DELETE', baseUrl + '/delete');
   }
 }
