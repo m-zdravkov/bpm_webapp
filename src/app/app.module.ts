@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuardService, AuthServiceInstance } from './auth/services/AuthService';
+import { AuthGuardService, AuthServiceInstance, LoginRedirectService } from './auth/services/AuthService';
 import {
   MatButtonModule,
   MatCardModule,
@@ -16,12 +16,13 @@ import {
 } from '@angular/material';
 import { RegisterFormComponent } from './register/register-form.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginFormComponent } from './login/LoginFormComponent';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FlexModule } from '@angular/flex-layout';
 import { LocalStorageService } from './utils/LocalStorageService';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,18 @@ import { LocalStorageService } from './utils/LocalStorageService';
     NoopAnimationsModule,
     FlexModule
   ],
-  providers: [AuthServiceInstance, AuthGuardService, LocalStorageService],
+  providers: [
+    AuthServiceInstance,
+    AuthGuardService,
+    LoginRedirectService,
+    LocalStorageService,
+    AuthInterceptor,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
