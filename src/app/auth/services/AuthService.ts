@@ -17,16 +17,16 @@ export interface IAuthService {
 
 @Injectable()
 export class AuthServiceInstance {
-  constructor(public lsService: LocalStorageService) {}
+  constructor(public lsService: LocalStorageService, private router: Router) {}
 
   getInstance(): IAuthService {
-    return new AuthService(this.lsService);
+    return new AuthService(this.lsService, this.router);
   }
 }
 
 class AuthService implements IAuthService {
 
-  constructor(private lsService: LocalStorageService) {}
+  constructor(private lsService: LocalStorageService, private router: Router) {}
 
   setToken(res: AccessToken): void {
     this.lsService.accessToken = res;
@@ -37,6 +37,7 @@ class AuthService implements IAuthService {
     httpClient.post<AccessToken>(urls.getUrl('register').toString(), user)
       .subscribe(accessToken => {
           this.setToken(accessToken);
+          this.router.navigate(['/']);
         },
         err => {
           console.log(err);
@@ -48,6 +49,7 @@ class AuthService implements IAuthService {
     httpClient.post<AccessToken>(urls.getUrl('login').toString(), user)
       .subscribe(accessToken => {
           this.setToken(accessToken);
+          this.router.navigate(['/']);
         },
         err => {
           console.log(err);
@@ -81,6 +83,22 @@ export class AuthGuardService implements CanActivate {
   canActivate(): boolean {
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['login']);
+      return false;
+    }
+    return true;
+  }
+}
+
+@Injectable()
+export class LoginRedirectService implements CanActivate {
+  public auth: IAuthService;
+  constructor( public router: Router, authServiceInstance: AuthServiceInstance) {
+    this.auth = authServiceInstance.getInstance();
+  }
+
+  canActivate(): boolean {
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/']);
       return false;
     }
     return true;
