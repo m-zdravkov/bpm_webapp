@@ -11,7 +11,7 @@ const routes: Routes = [
   /* As authorized { path: 'register', component: RegisterFormComponent, canActivate: [AuthGuard] },*/
   { path: 'login', component: LoginFormComponent  },
   { path: 'lobby/create', component: CreateLobbyComponent, canActivate: [AuthGuard]  },
-  { path: 'lobby/view/:id', component: LobbyComponent, canActivate: [AuthGuard]  }
+  { path: 'lobby/:id', component: LobbyComponent, canActivate: [AuthGuard]  }
 ];
 
 @NgModule({

@@ -12,11 +12,12 @@ export interface IResourceService<T> {
   // This buffers fetched resources
   resources: {[key: string]: T};
 
-  create(resource: T): void;
-  get(query: any): void;
-  getAll(query: any): void;
-  update(query: any): void;
-  delete(query: any): void;
+  create(resource: T): Observable<HttpEvent<any>>;
+  get(query: any): Observable<HttpEvent<any>>;
+  getProperty(resourceId: string, propertyName: string, propertyId: string, query?: any): Observable<HttpEvent<any>>;
+  getAll(query: any): Observable<HttpEvent<any>>;
+  update(query: any): Observable<HttpEvent<any>>;
+  delete(query: any): Observable<HttpEvent<any>>;
   /**
    * This method will automatically build request data for CRUD operations (url + method) from the base URL.
    * You can then fine-tune these as you need.
@@ -55,35 +56,59 @@ export class ResourceService<T> implements IResourceService<T> {
   }
 
   /**
-   * 
+   * Makes a generic CRUD request from predefined settings, such as data from httpRequests[], and dynamic params[] 
    * @param action CRUD action
    * @param body the request body, can be a resource, can be a query
-   * @param id 
+   * @param params url parameters 
    */
-  protected genericRequest(action: string, body: any, params?: string | string[]): Observable<HttpEvent<any>> {
+  protected makeRequest(action: string, body: any, params?: string | string[]): Observable<HttpEvent<any>> {
     const reqData: HttpRequestData = this.httpRequests[action];
     const req = new HttpRequest(reqData.method, UrlBuilder.addParams(reqData.url, params) , body, reqData.options);
     return this.httpClient.request(req);
   }
 
-  protected genericCrud(action: string, request: any, params?: string | string[]) {
-    this.genericRequest(action, request, params).subscribe(
+  /**
+   * Calls a generic request and then calls the default handlers. Override this if you don't want default handlers.
+   * @param action action id (determines request details such as url and method)
+   * @param body request body
+   * @param params dynamic url parameters after the base url for the request
+   */
+  protected handleCrud(action: string, body: any, params?: string | string[]): Observable<HttpEvent<any>> {
+    let req = this.makeRequest(action, body, params);
+
+    req.subscribe(
       (res: any) => {
-        if (action === 'get' || action === 'getAll') {
-          this.resources += res;
-        }
+        this.handleGenericResponse(action, res);
       },
       (err: any) => {
-        this.genericError(err);
+        this.handleGenericError(action, err);
       }
-    )
+    );
+
+    return req;
   }
 
-  protected genericError(err: any) {
+  /**
+   * This response handler is called on every generic crud request.
+   * @param action id of the action, e.g. create
+   * @param res server response
+   */
+  protected handleGenericResponse(action: string, res: any) {
+    if (action === 'get' || action === 'getAll') {
+      this.resources += res;
+    }
+  }
+
+  /**
+   * This error handler is called on every generic crud request.
+   * @param action id of the action, e.g. create 
+   * @param err server response
+   */
+  protected handleGenericError(action: string, err: any) {
     console.log(JSON.stringify(err));
     if (err.url && err.status) {
       this.toastr.warning(err.url, err.status);
-      if (err.status === 404) {
+      if (err.status === 404 && action !== 'getProperty') {
         this.toastr.error('We could not find what you were looking for, because it doesn\'t exist.', 'Oops!');
       }else {
         this.toastr.error(err.message);
@@ -91,36 +116,42 @@ export class ResourceService<T> implements IResourceService<T> {
     }
   }
 
-  // Handling methods section, these are meant to be overridden, but provide some default functionallity
+  // Handling methods section, these can be overridden, but provide some default functionallity
+  // You can override them in your service sub-class, but you can also subscribe to them in a component
 
-  public create(resource: T): void {
-    this.genericCrud('create', resource);
+  public create(resource: T): Observable<HttpEvent<any>> {
+    return this.handleCrud('create', resource);
   }
 
-  public get(query: any): void {
-    this.genericCrud('get', query, query.id as string);
+  public get(query: any): Observable<HttpEvent<any>> {
+    return this.handleCrud('get', query, query.id as string);
   }
 
-  public getAll(query: any): void {
-    this.genericCrud('getAll', query);
+  public getProperty(resourceId: string, propertyName: string, propertyId: string, query?: any): Observable<HttpEvent<any>>  {
+    return this.handleCrud('getProperty', query, [resourceId, propertyName, propertyId]);
   }
 
-  public update(query: any): void {
-    this.genericCrud('update', query, query.id as string);
+  public getAll(query: any): Observable<HttpEvent<any>> {
+    return this.handleCrud('getAll', query);
   }
 
-  public delete(query: any): void {
-    this.genericCrud('delete', query, query.id as string);
+  public update(query: any): Observable<HttpEvent<any>> {
+    return this.handleCrud('update', query, query.id as string);
+  }
+
+  public delete(query: any): Observable<HttpEvent<any>> {
+    return this.handleCrud('delete', query, query.id as string);
   }
 
   buildHttpRequests(baseUrl: string) {
     const options = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    this.httpRequests['create'] = new HttpRequestData('POST', baseUrl + '/create', options);
-    this.httpRequests['get'] = new HttpRequestData('GET', baseUrl + '/get', options);
-    this.httpRequests['getAll'] = new HttpRequestData('GET', baseUrl + '/getall', options);
-    this.httpRequests['update'] = new HttpRequestData('PUT', baseUrl + '/update', options);
-    this.httpRequests['delete'] = new HttpRequestData('DELETE', baseUrl + '/delete', options);
+    this.httpRequests['create'] = new HttpRequestData('POST', baseUrl, options);
+    this.httpRequests['get'] = new HttpRequestData('GET', baseUrl, options);
+    this.httpRequests['getProperty'] = new HttpRequestData('GET', baseUrl, options);
+    this.httpRequests['getAll'] = new HttpRequestData('GET', baseUrl + '/list', options);
+    this.httpRequests['update'] = new HttpRequestData('PUT', baseUrl, options);
+    this.httpRequests['delete'] = new HttpRequestData('DELETE', baseUrl, options);
   }
 }

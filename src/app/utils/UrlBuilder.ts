@@ -14,9 +14,7 @@ export class UrlBuilder {
             result += "/";
 
         if (params instanceof Array) {
-            for (let param in params) {
-                result += param;
-            }
+            result += params.join("/");
         }else {
             result += params;
         }
