@@ -25,6 +25,8 @@ import { LocalStorageService } from './utils/LocalStorageService';
 import { ToastrModule } from 'ngx-toastr';
 import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
 import { LobbyComponent } from './lobby/lobby.component';
+import { ResourceServiceInstance, ResourceService } from './resource.service';
+import { LobbyServiceInstance } from './lobby/services/LobbyService';
 
 @NgModule({
   declarations: [
@@ -52,10 +54,16 @@ import { LobbyComponent } from './lobby/lobby.component';
     NoopAnimationsModule,
     FlexModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-left'
+      positionClass: 'toast-top-right-custom',
     }),
   ],
-  providers: [AuthServiceInstance, AuthGuardService, LocalStorageService],
+  providers: [
+    AuthServiceInstance,
+    AuthGuardService,
+    LocalStorageService,
+    ResourceServiceInstance,
+    LobbyServiceInstance
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

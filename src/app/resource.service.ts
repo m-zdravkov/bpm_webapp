@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestData } from './models/HttpRequestData';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { ToastrService } from 'ngx-toastr';
 
 export interface IResourceService<T> {
   // These are stored in a custom model, as the real requests need to be generated dynamically (for parameters and such)
@@ -27,18 +28,28 @@ export interface IResourceService<T> {
 })
 export class ResourceServiceInstance<T> {
 
-  constructor(protected httpClient: HttpClient) { }
+  constructor(
+    protected httpClient: HttpClient,
+    protected toastr: ToastrService
+  ) { }
 
   getInstance(): IResourceService<T> {
-    return new ResourceService<T>(this.httpClient);
+    return new ResourceService<T>(this.httpClient, this.toastr);
   }
 }
 
+export interface HttpRequestDataMap {
+  [key: string]: HttpRequestData;
+}
+
 export class ResourceService<T> implements IResourceService<T> {
-  public httpRequests: {[key: string]: HttpRequestData};
+  public httpRequests: {[key: string]: HttpRequestData} = {'': null as HttpRequestData};
   public resources: any; // {[key: string]: T};
 
-  constructor(protected httpClient: HttpClient) { 
+  constructor(
+    protected httpClient: HttpClient,
+    protected toastr: ToastrService
+  ) { 
 
   }
 
@@ -62,9 +73,21 @@ export class ResourceService<T> implements IResourceService<T> {
         }
       },
       (err: any) => {
-        console.log(JSON.stringify(err));
+        this.genericError(err);
       }
     )
+  }
+
+  protected genericError(err: any) {
+    console.log(JSON.stringify(err));
+    if (err.url && err.status) {
+      this.toastr.warning(err.url, err.status);
+      if (err.status === 404) {
+        this.toastr.error('We could not find what you were looking for, because it doesn\'t exist.', 'Oops!');
+      }else {
+        this.toastr.error(err.message);
+      }
+    }
   }
 
   // Handling methods section, these are meant to be overridden, but provide some default functionallity
@@ -86,9 +109,12 @@ export class ResourceService<T> implements IResourceService<T> {
   }
 
   buildHttpRequests(baseUrl: string) {
-    this.httpRequests['create'] = new HttpRequestData('POST', baseUrl + '/create');
-    this.httpRequests['get'] = new HttpRequestData('GET', baseUrl + '/get/');
-    this.httpRequests['update'] = new HttpRequestData('PUT', baseUrl + '/update');
-    this.httpRequests['delete'] = new HttpRequestData('DELETE', baseUrl + '/delete/');
+    const options = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    this.httpRequests['create'] = new HttpRequestData('POST', baseUrl + '/create', options);
+    this.httpRequests['get'] = new HttpRequestData('GET', baseUrl + '/get/', options);
+    this.httpRequests['update'] = new HttpRequestData('PUT', baseUrl + '/update', options);
+    this.httpRequests['delete'] = new HttpRequestData('DELETE', baseUrl + '/delete/', options);
   }
 }

@@ -48,7 +48,7 @@ class AuthService implements IAuthService {
         },
         err => {
           console.log(err);
-          this.toastrService.error(err, 'Something went wrong with your registration.');
+          this.toastrService.error(err.error.msg, 'Something went wrong with your registration.');
         });
   }
 
@@ -61,7 +61,7 @@ class AuthService implements IAuthService {
         },
         err => {
           console.log(err);
-          this.toastrService.error(err, 'Something went wrong and we could not log you in.');
+          this.toastrService.error(err.error.msg, 'Oops! Could not log in.');
         });
   }
 

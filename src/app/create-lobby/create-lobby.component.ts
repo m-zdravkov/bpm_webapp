@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LobbyForm } from '../models/LobbyForm';
+import { LobbyServiceInstance, ILobbyService } from '../lobby/services/LobbyService';
+import { Lobby } from '../models/Lobby';
 
 @Component({
   selector: 'app-create-lobby',
@@ -8,12 +10,17 @@ import { LobbyForm } from '../models/LobbyForm';
 })
 export class CreateLobbyComponent implements OnInit {
   lobbyForm: LobbyForm = new LobbyForm();
-  constructor() { }
+  lobbyService: ILobbyService;
+  lobby = new Lobby();
+
+  constructor(public lobbyServiceInstance: LobbyServiceInstance) {
+    this.lobbyService = this.lobbyServiceInstance.getInstance();
+  }
 
   ngOnInit() {
   }
 
   create() {
-    alert('Create');
+    this.lobbyService.create(this.lobby);
   }
 }
