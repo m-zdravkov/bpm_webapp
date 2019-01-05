@@ -20,10 +20,10 @@
         <span class="label">Sorry! We could not find this lobby.</span>
       </ng-container>
       <ng-template #displayLobby>
-        <ng-container *ngIf="lobby == null; else loading">
-          Name: {{lobby.name}}
+        <ng-container *ngIf="lobby.id; else loading">
+          <h6>Game: {{lobby.game}}</h6>
           <br/>
-          Game: {{lobby.games}}
+          <p>{{lobby.description}}</p>
         </ng-container>
         <ng-template #loading>
           <div class="loader"></div>
