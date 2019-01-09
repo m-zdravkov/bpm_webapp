@@ -19,6 +19,11 @@
               <mat-icon class="icon">assignment_in</mat-icon>
               <span class="label">Register</span>
             </a>
+          </li><li>
+            <a routerLink="/profile" routerLinkActive="active" *ngIf="isAuthenticated">
+              <mat-icon class="icon">assignment_in</mat-icon>
+              <span class="label">Profile</span>
+            </a>
           </li>
           <li>
             <a *ngIf="isAuthenticated" (click)="logout()">

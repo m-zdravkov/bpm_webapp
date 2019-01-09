@@ -14,7 +14,6 @@ export class RegisterFormComponent {
   constructor(
     private httpClient: HttpClient,
     authServiceInstance: AuthServiceInstance) {
-
     this.authService = authServiceInstance.getInstance();
   }
 

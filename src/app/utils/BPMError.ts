@@ -1,3 +1,3 @@
 export class BPMError implements Error {
-  constructor (private message: string, private name: string, private stack: string) { }
+  constructor (public message: string, public name: string, public stack: string) { }
 }

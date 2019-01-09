@@ -1,0 +1,29 @@
+<div>
+  <mat-card>
+    <mat-form-field class="separate-input">
+      <input matInput placeholder="Username" [(ngModel)]="registrationUser.username" required/>
+    </mat-form-field>
+    <mat-form-field class="separate-input">
+      <input matInput placeholder="Phone" [(ngModel)]="registrationUser.phone" />
+    </mat-form-field>
+    <mat-form-field class="separate-input">
+      <input matInput placeholder="Email" [(ngModel)]="registrationUser.email" required/>
+    </mat-form-field>
+    <mat-form-field class="separate-input">
+      <input matInput placeholder="Facebook" [(ngModel)]="registrationUser.facebook" />
+    </mat-form-field>
+    <mat-checkbox class="separate-input" [(ngModel)]="registrationUser.showPhone">
+      Show Phone
+    </mat-checkbox>
+    <mat-checkbox class="separate-input" [(ngModel)]="registrationUser.showEmail">
+      Show Email
+    </mat-checkbox>
+    <mat-checkbox class="separate-input" [(ngModel)]="registrationUser.showFacebook">
+      Show Facebook
+    </mat-checkbox>
+    <mat-form-field class="separate-input">
+      <input matInput type="password" placeholder="Password" [(ngModel)]="registrationUser.password" required/>
+    </mat-form-field>
+    <button class="margin-left" mat-raised-button color="primary" matInput value="Update" (click)="updateUser()">Update</button>
+  </mat-card>
+</div>

@@ -24,13 +24,16 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FlexModule } from '@angular/flex-layout';
 import { LocalStorageService } from './utils/LocalStorageService';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+import { ProfileComponent } from './profile/profile.component';
+import {IUserService, UserServiceInstance} from './auth/services/UserService';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterFormComponent,
     LoginFormComponent,
-    NavbarComponent
+    NavbarComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
     LoginRedirectService,
     LocalStorageService,
     AuthInterceptor,
+    UserServiceInstance,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
