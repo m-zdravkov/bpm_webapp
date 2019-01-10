@@ -6,11 +6,12 @@ import { AccessToken } from '../../models/AccessToken';
 import * as moment from 'moment';
 import { CanActivate, Router } from '@angular/router';
 import { LocalStorageService } from '../../utils/LocalStorageService';
+import {Observable} from 'rxjs';
 
 export interface IAuthService {
   setToken(res: AccessToken): void;
   register(user: User, httpClient: HttpClient): void;
-  login(user: User, httpClient: HttpClient): void;
+  login(user: User, httpClient: HttpClient): Observable<AccessToken>;
   isAuthenticated(nextVal?: AccessToken): boolean;
   logout(): void;
 }
@@ -44,16 +45,9 @@ class AuthService implements IAuthService {
         });
   }
 
-  login(user: User, httpClient: HttpClient): void {
+  login(user: User, httpClient: HttpClient): Observable<AccessToken> {
     const urls = new Urls();
-    httpClient.post<AccessToken>(urls.getUrl('login').toString(), user)
-      .subscribe(accessToken => {
-          this.setToken(accessToken);
-          this.router.navigate(['/']);
-        },
-        err => {
-          console.log(err);
-        });
+    return httpClient.post<AccessToken>(urls.getUrl('login').toString(), user);
   }
 
   logout() {

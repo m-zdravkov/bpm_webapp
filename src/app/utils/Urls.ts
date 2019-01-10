@@ -6,6 +6,8 @@ export class Urls {
   constructor() {
     this.urls.set('login', `${baseUrl}/auth/login`);
     this.urls.set('register', `${baseUrl}/auth/register`);
+    this.urls.set('profile', `${baseUrl}/users/getUser`);
+    this.urls.set('updateUser', `${baseUrl}/users/updateUser`);
   }
   getUrl(resourceName: string) {
     return this.urls.get(resourceName);
