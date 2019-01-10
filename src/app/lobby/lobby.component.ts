@@ -32,12 +32,6 @@ export class LobbyComponent implements OnInit {
           delay(1000).then(() => {
             this.lobby = null;
             this.notFound = true;
-            // Test:
-            // this.lobby = new Lobby();
-            // this.lobby.id = 1;
-            // this.lobby.name = "New lobby";
-            // this.lobby.description = "bla bla bla";
-            // this.lobby.game = "playing with code";
             this.cdref.detectChanges();
           });
         }

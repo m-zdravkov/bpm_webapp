@@ -23,6 +23,8 @@
         <ng-container *ngIf="lobby.id; else loading">
           <h6>Game: {{lobby.game}}</h6>
           <br/>
+          Players: {{lobby.members}} / {{lobby.treshold}}
+          <br/>
           <p>{{lobby.description}}</p>
         </ng-container>
         <ng-template #loading>
@@ -33,7 +35,6 @@
         </ng-template>
       </ng-template>
       <br/>
-      <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse commodo dolor nibh, vel luctus neque laoreet in. Pellentesque ac est rutrum, lobortis turpis eget, sodales nunc. Aliquam eget mollis dui. Fusce ac risus elementum, tincidunt velit sit amet, malesuada nunc. Vestibulum vitae blandit odio. In quis lacinia lacus, ac ultricies neque. Praesent consectetur nunc turpis, at ullamcorper nulla rhoncus eu. Integer sit amet ligula in nunc condimentum imperdiet. Quisque ultrices ipsum vehicula convallis varius. Donec vehicula aliquet velit vel volutpat. Donec at cursus metus. Nam sit amet quam laoreet leo pellentesque tincidunt quis nec leo. Nam metus libero, aliquam a nulla ut, pellentesque faucibus lorem. Nam pulvinar ante a nisl scelerisque placerat. Maecenas gravida erat eget ligula facilisis, vel maximus tortor facilisis.  -->
     </mat-card-content>
 
   </mat-card>
