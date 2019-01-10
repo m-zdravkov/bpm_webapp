@@ -18,13 +18,11 @@ export class LocalStorageService {
   }
   set registrationUser(value) {
     const val = JSON.stringify(value);
-    console.log(val);
     this.registrationUserSubject.next(value);
     localStorage.setItem('currentUser', val);
   }
 
   get registrationUser() {
-    console.log(localStorage.getItem('currentUser'));
     return JSON.parse(localStorage.getItem('currentUser'));
   }
 }
