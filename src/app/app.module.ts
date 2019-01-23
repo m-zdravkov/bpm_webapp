@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuardService, AuthServiceInstance } from './auth/services/AuthService';
+import { AuthGuardService, AuthServiceInstance, LoginRedirectService } from './auth/services/AuthService';
 import {
   MatButtonModule,
   MatCardModule,
@@ -12,11 +12,12 @@ import {
   MatInputModule,
   MatListModule,
   MatSidenavModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { RegisterFormComponent } from './register/register-form.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginFormComponent } from './login/LoginFormComponent';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -27,6 +28,9 @@ import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { ResourceServiceInstance, ResourceService } from './resource.service';
 import { LobbyServiceInstance } from './lobby/services/LobbyService';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+import { ProfileComponent } from './profile/profile.component';
+import {IUserService, UserServiceInstance} from './auth/services/UserService';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,7 @@ import { LobbyServiceInstance } from './lobby/services/LobbyService';
     NavbarComponent,
     CreateLobbyComponent,
     LobbyComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +58,7 @@ import { LobbyServiceInstance } from './lobby/services/LobbyService';
     BrowserAnimationsModule,
     NoopAnimationsModule,
     FlexModule,
+    MatCheckboxModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right-custom',
     }),
@@ -60,7 +66,15 @@ import { LobbyServiceInstance } from './lobby/services/LobbyService';
   providers: [
     AuthServiceInstance,
     AuthGuardService,
+    LoginRedirectService,
     LocalStorageService,
+    AuthInterceptor,
+    UserServiceInstance,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     ResourceServiceInstance,
     LobbyServiceInstance
   ],

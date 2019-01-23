@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 export interface IAuthService {
   setToken(res: AccessToken): void;
   register(user: User, httpClient: HttpClient): void;
-  login(user: User, httpClient: HttpClient): void;
+  login(user: User, httpClient: HttpClient): Observable<AccessToken>;
   isAuthenticated(nextVal?: AccessToken): boolean;
   logout(): void;
 }
@@ -52,7 +52,7 @@ class AuthService implements IAuthService {
         });
   }
 
-  login(user: User, httpClient: HttpClient): void {
+  login(user: User, httpClient: HttpClient): Observable<AccessToken> {
     const urls = new Urls();
     httpClient.post<AccessToken>(urls.getUrl('login').toString(), user)
       .subscribe(accessToken => {
@@ -63,6 +63,7 @@ class AuthService implements IAuthService {
           console.log(err);
           this.toastrService.error(err.error.msg, 'Oops! Could not log in.');
         });
+    return httpClient.post<AccessToken>(urls.getUrl('login').toString(), user);
   }
 
   logout() {
@@ -93,6 +94,22 @@ export class AuthGuardService implements CanActivate {
   canActivate(): boolean {
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['login']);
+      return false;
+    }
+    return true;
+  }
+}
+
+@Injectable()
+export class LoginRedirectService implements CanActivate {
+  public auth: IAuthService;
+  constructor( public router: Router, authServiceInstance: AuthServiceInstance) {
+    this.auth = authServiceInstance.getInstance();
+  }
+
+  canActivate(): boolean {
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/']);
       return false;
     }
     return true;
