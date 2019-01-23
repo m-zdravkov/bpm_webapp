@@ -55,15 +55,15 @@ class AuthService implements IAuthService {
 
   login(user: User, httpClient: HttpClient): Observable<AccessToken> {
     const urls = new Urls();
-    httpClient.post<AccessToken>(urls.getUrl('login').toString(), user)
-      .subscribe(accessToken => {
-          this.setToken(accessToken);
-          this.toastrService.success('Ready to look for a game?', 'Hi again!');
-        },
-        err => {
-          console.log(err);
-          this.toastrService.error(err.error.msg, 'Oops! Could not log in.');
-        });
+    // return httpClient.post<AccessToken>(urls.getUrl('login').toString(), user)
+    //   .subscribe(accessToken => {
+    //       this.setToken(accessToken);
+    //       this.toastrService.success('Ready to look for a game?', 'Hi again!');
+    //     },
+    //     err => {
+    //       console.log(err);
+    //       this.toastrService.error(err.error.msg, 'Oops! Could not log in.');
+    //     });
     return httpClient.post<AccessToken>(urls.getUrl('login').toString(), user);
   }
 
