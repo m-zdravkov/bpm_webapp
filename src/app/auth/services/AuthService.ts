@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { CanActivate, Router } from '@angular/router';
 import { LocalStorageService } from '../../utils/LocalStorageService';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 
 export interface IAuthService {
   setToken(res: AccessToken): void;
